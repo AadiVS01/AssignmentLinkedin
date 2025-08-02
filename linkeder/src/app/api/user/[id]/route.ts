@@ -2,13 +2,16 @@
 import { NextResponse } from "next/server";
 import { db } from "@/server/db";
 
+// The second argument's type is corrected here
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } },
+  context: { params: { id: string } }
 ) {
+  const { id } = context.params; // Destructure id from context.params
+
   try {
     const user = await db.user.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       select: {
         id: true,
         name: true,
@@ -30,10 +33,10 @@ export async function GET(
 
     return NextResponse.json(user);
   } catch (error) {
-    console.error(`Failed to fetch user ${params.id}:`, error);
+    console.error(`Failed to fetch user ${id}:`, error);
     return NextResponse.json(
       { message: "An unexpected error occurred." },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
