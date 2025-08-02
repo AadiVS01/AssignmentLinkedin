@@ -2,11 +2,11 @@
 import { NextResponse } from "next/server";
 import { db } from "@/server/db";
 
-// Corrected the function signature to destructure params directly.
-// This is the standard and recommended way for dynamic route handlers.
+// This is the standard and correct signature for a dynamic route handler.
+// The second argument is an object containing the `params`.
 export async function GET(
   request: Request,
-  { params }: { params: { id:string } }
+  { params }: { params: { id: string } }
 ) {
   const id = params.id; // The dynamic 'id' from the URL
 
