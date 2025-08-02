@@ -1,13 +1,14 @@
 // src/app/api/user/[id]/route.ts
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { db } from "@/server/db";
 
-// Using the more specific NextRequest type for the first argument.
+// Corrected the function signature to destructure params directly.
+// This is the standard and recommended way for dynamic route handlers.
 export async function GET(
-  req: NextRequest,
-  context: { params: { id: string } }
+  request: Request,
+  { params }: { params: { id:string } }
 ) {
-  const { id } = context.params; // Destructure id from context.params
+  const id = params.id; // The dynamic 'id' from the URL
 
   try {
     const user = await db.user.findUnique({
