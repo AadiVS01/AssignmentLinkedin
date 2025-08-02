@@ -1,10 +1,10 @@
-// src/app/api/users/[id]/route.ts
-import { NextResponse } from "next/server";
+// src/app/api/user/[id]/route.ts
+import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/server/db";
 
-// The second argument's type is corrected here
+// Using the more specific NextRequest type for the first argument.
 export async function GET(
-  req: Request,
+  req: NextRequest,
   context: { params: { id: string } }
 ) {
   const { id } = context.params; // Destructure id from context.params
