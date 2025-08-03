@@ -2,13 +2,11 @@
 import { NextResponse } from "next/server";
 import { db } from "@/server/db";
 
-// This is the standard and correct signature for a dynamic route handler.
-// The second argument is an object containing the `params`.
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
-  const id = params.id; // The dynamic 'id' from the URL
+  const id = context.params.id; 
 
   try {
     const user = await db.user.findUnique({
@@ -34,9 +32,17 @@ export async function GET(
 
     return NextResponse.json(user);
   } catch (error) {
-    console.error(`Failed to fetch user ${id}:`, error);
+    // It's good practice to type the error object
+    let errorMessage = "An unexpected error occurred.";
+    if (error instanceof Error) {
+        // Now you can safely access error.message, etc.
+        console.error(`Failed to fetch user ${id}:`, error.message);
+    } else {
+        console.error(`An unknown error occurred while fetching user ${id}:`, error);
+    }
+    
     return NextResponse.json(
-      { message: "An unexpected error occurred." },
+      { message: errorMessage },
       { status: 500 }
     );
   }
