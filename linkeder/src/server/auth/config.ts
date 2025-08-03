@@ -1,4 +1,4 @@
-import { type NextAuthConfig } from "next-auth";
+import { type NextAuthConfig, type DefaultSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
 import { db } from "@/server/db";
@@ -15,7 +15,7 @@ declare module "next-auth" {
       id: string;
       // ...other properties
       // role: UserRole;
-    } & Session["user"];
+    } & DefaultSession["user"];
   }
 }
 
